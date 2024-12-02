@@ -33,9 +33,10 @@ class MoneyAccountSqliteRepository extends MoneyAccountRepository {
             : DateTime.parse(entity["updated"] as String),
         accountType: MoneyAccountTypes.values[entity["accountType"] as int],
         balance: entity["balance"] as double,
-        bank: Banks.values[entity["bank"] as int],
+        bank:  entity["bank"] == null ? null: Banks.values[entity["bank"] as int],
         accountNumber: entity["accountNumber"] as String,
-        description: entity["description"] as String);
+        title: entity["title"] as String,
+        description: entity["description"] == null ? null : entity["description"] as String);
   }
 
   @override
@@ -43,6 +44,7 @@ class MoneyAccountSqliteRepository extends MoneyAccountRepository {
     Database db = await _databasePort.instance;
     Map<String, Object?> moneyAccountMap = {
       "uuid": moneyAccount.uuid,
+      "title": moneyAccount.title,
       "accountType": moneyAccount.accountType.value,
       "balance": moneyAccount.balance,
       "bank": moneyAccount.bank?.value,

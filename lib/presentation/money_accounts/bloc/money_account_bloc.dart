@@ -97,7 +97,7 @@ class MoneyAccountBloc extends Bloc<MoneyAccountEvent, MoneyAccountState> {
 
   void _mapSelectToUpdateMoneyAccountEventToState(SelectToUpdateMoneyAccountEvent event,
       Emitter<MoneyAccountState> emit) async {
-          //TODO: make it
+    emit(state.copyWith(selectedToEdit: event.account));
   }
   @override
   Future<void> close() {

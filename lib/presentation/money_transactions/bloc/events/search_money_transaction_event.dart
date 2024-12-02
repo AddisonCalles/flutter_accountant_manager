@@ -14,4 +14,5 @@ class SearchMoneyTransactionEvent extends MoneyTransactionEvent {
 
   // make a constructor with tefault values
   const SearchMoneyTransactionEvent.clean(): search = const MoneyTransactionFilter( page : 1, pageSize : 100), reload = false;
+  SearchMoneyTransactionEvent.byAccount(String accountUUID): search = MoneyTransactionFilter(accountUUID: accountUUID, page: 1, pageSize: 100), reload = false;
 }

@@ -1,4 +1,6 @@
+import 'package:accountant_manager/presentation/money_accounts/bloc/events/remove_selection_money_account_event.dart';
 import 'package:accountant_manager/presentation/money_accounts/bloc/events/search_money_account_event.dart';
+import 'package:accountant_manager/presentation/money_accounts/bloc/events/select_to_update_money_account_event.dart';
 import 'package:accountant_manager/presentation/money_accounts/bloc/money_account_state.dart';
 import 'package:accountant_manager/presentation/money_accounts/views/money_account_list_page/money_money_account_list_page.dart';
 import 'package:accountant_manager/presentation/money_accounts/widgets/money_account_bank_card.dart';
@@ -44,11 +46,15 @@ class MoneyAccountListPageState extends State<MoneyAccountListPage> {
             itemCount: state.moneyAccounts.length,
             itemBuilder: (context, index) {
               final account = state.moneyAccounts[index];
-              return MoneyAccountBankCardWidget(account: account,
-              onDelete: (account) => {
-              },
-              onEdit: (account)=>{
-              });
+              return MoneyAccountBankCardWidget(
+                  account: account,
+                  onDelete: (account) => {
+                  },
+                  onTouch: (account) {
+                  context.read<MoneyAccountBloc>().add(SelectToUpdateMoneyAccountEvent(account));
+                  Navigator.pushNamed(context, '/money_transactions').then((value) =>
+                      context.read<MoneyAccountBloc>().add(const SearchMoneyAccountEvent.clean()));
+                });
             });
       }),
     );

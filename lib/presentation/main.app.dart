@@ -9,16 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyApp extends StatelessWidget {
-  final Map<String, Widget Function(BuildContext)> mainRoutes =
-  MainRoutesFactory.getRoutes();
+  final CreateMoneyTransactionUseCase createMoneyTransactionUseCase;
+  final SearchMoneyTransactionUseCase searchMoneyTransactionUseCase;
+  final CreateMoneyAccountUseCase createMoneyAccountUseCase;
+  final SearchMoneyAccountUseCase searchMoneyAccountUseCase;
 
-
-  CreateMoneyTransactionUseCase createMoneyTransactionUseCase;
-  SearchMoneyTransactionUseCase searchMoneyTransactionUseCase;
-  CreateMoneyAccountUseCase createMoneyAccountUseCase;
-  SearchMoneyAccountUseCase searchMoneyAccountUseCase;
-
-  MyApp(
+  const MyApp(
       {super.key,
         required this.createMoneyTransactionUseCase,
         required this.searchMoneyTransactionUseCase,
@@ -28,6 +24,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Map<String, Widget Function(BuildContext)> mainRoutes =
+    MainRoutesFactory.getRoutes();
     return MultiBlocProvider(
         providers: [
           BlocProvider<MoneyTransactionBloc>(

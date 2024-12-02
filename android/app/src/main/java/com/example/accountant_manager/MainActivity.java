@@ -1,4 +1,4 @@
-package com.addisoncalles.accountant_manager.accountant_manager;
+package com.example.accountant_manager;
 
 import io.flutter.embedding.android.FlutterActivity;
 

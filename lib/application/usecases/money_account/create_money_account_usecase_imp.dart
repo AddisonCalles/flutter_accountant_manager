@@ -3,11 +3,11 @@ import 'package:accountant_manager/domain/entities/money_account.dart';
 import 'package:accountant_manager/domain/repositories/money_account_repository.dart';
 import 'package:accountant_manager/domain/usecases/money_account/create_money_account_usecase.dart';
 
-class CreateMoneyAccountUseCaseMock implements CreateMoneyAccountUseCase {
+class CreateMoneyAccountUseCaseImp implements CreateMoneyAccountUseCase {
   final MoneyAccountRepository repository;
   final UUIDGenerator uuidGenerator;
 
-  CreateMoneyAccountUseCaseMock({required this.repository, required this.uuidGenerator});
+  CreateMoneyAccountUseCaseImp({required this.repository, required this.uuidGenerator});
 
   @override
   Future<MoneyAccount> execute(MoneyAccount moneyAccount) async {

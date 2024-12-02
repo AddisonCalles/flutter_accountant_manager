@@ -6,13 +6,13 @@ import 'package:accountant_manager/domain/entities/money_account.dart';
 
 class MoneyAccountCard extends StatelessWidget {
   final MoneyAccount account;
-  final Function(MoneyAccount) onEdit;
+  final Function(MoneyAccount) onTouch;
   final Function(MoneyAccount) onDelete;
 
   const MoneyAccountCard({
     super.key,
     required this.account,
-    required this.onEdit,
+    required this.onTouch,
     required this.onDelete,
   });
 

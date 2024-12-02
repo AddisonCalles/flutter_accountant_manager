@@ -5,11 +5,11 @@ import 'package:accountant_manager/domain/repositories/money_account_repository.
 import 'package:accountant_manager/domain/usecases/money_account/create_money_account_usecase.dart';
 import 'package:accountant_manager/domain/usecases/money_account/search_money_account_usecase.dart';
 
-class CreateMoneyAccountUseCaseImp implements SearchMoneyAccountUseCase {
+class SearchMoneyAccountUseCaseImp implements SearchMoneyAccountUseCase {
   final MoneyAccountRepository repository;
   final UUIDGenerator uuidGenerator;
 
-  CreateMoneyAccountUseCaseImp({required this.repository, required this.uuidGenerator});
+  const SearchMoneyAccountUseCaseImp({required this.repository, required this.uuidGenerator});
 
   @override
   Future<List<MoneyAccount>> execute(MoneyAccountFilter query) {

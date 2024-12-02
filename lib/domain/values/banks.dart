@@ -2,6 +2,7 @@
 
 
 enum Banks {
+  unknown(0),
   banamex(1),
   bancomer(2),
   santander(3),

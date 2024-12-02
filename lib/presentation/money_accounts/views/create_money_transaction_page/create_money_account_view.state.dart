@@ -168,6 +168,7 @@ class CreateMoneyAccountPageState extends State<CreateMoneyAccountPage> {
                               setState(() {
                                 moneyAccount =
                                     moneyAccount.copyWith(bank: bank.value);
+                                print("moneyAccount bank: ${moneyAccount.bank}");
                               });
                             },
                           ),

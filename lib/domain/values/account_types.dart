@@ -1,12 +1,13 @@
 
 enum MoneyAccountTypes{
+  unknown(0),
   cash(1),
   debitCard(2),
   creditCard(3);
 
   final int value;
 
-  const MoneyAccountTypes(this.value);
+  const MoneyAccountTypes([this.value = 0]);
 
   String toText() {
     String text = name;

@@ -57,6 +57,7 @@ class MoneyAccountState extends Equatable {
       {bool? isLoading,
       MoneyAccount? lastMoneyAccount,
       List<MoneyAccount>? moneyAccounts,
+      MoneyAccount? selectedToEdit,
       List<MoneyAccount>? selected,
       GenericRequestStatus? statusProgress,
       String? error,
@@ -65,6 +66,7 @@ class MoneyAccountState extends Equatable {
     return MoneyAccountState(
         statusProgress: statusProgress ?? this.statusProgress,
         search: search ?? this.search,
+        selectedToEdit: selectedToEdit ?? this.selectedToEdit,
         isLoading: isLoading ?? this.isLoading,
         lastMoneyAccount: lastMoneyAccount ?? this.lastMoneyAccount,
         moneyAccounts: moneyAccounts ?? this.moneyAccounts,
