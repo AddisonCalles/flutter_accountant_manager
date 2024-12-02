@@ -1,5 +1,4 @@
 import 'package:accountant_manager/domain/entities/money_account_filter.dart';
-import 'package:accountant_manager/domain/entities/money_transaction_filter.dart';
 import 'package:accountant_manager/presentation/money_accounts/bloc/events/money_account_event.dart';
 
 

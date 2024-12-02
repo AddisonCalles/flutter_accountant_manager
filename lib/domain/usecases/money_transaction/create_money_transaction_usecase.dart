@@ -1,4 +1,3 @@
-import 'package:accountant_manager/domain/entities/money_account.dart';
 import 'package:accountant_manager/domain/entities/money_transaction.dart';
 import 'package:accountant_manager/domain/repositories/money_account_repository.dart';
 

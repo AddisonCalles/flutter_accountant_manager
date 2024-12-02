@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:accountant_manager/domain/values/banks.dart';
 import 'package:accountant_manager/presentation/money_accounts/bloc/money_account_bloc.dart';
 import 'package:accountant_manager/presentation/money_accounts/bloc/money_account_state.dart';
 import 'package:accountant_manager/presentation/commons/list_search_selector_view.dart';
@@ -14,8 +13,7 @@ class ListSearchSelectorDropDown<ValueType> extends StatefulWidget {
   final InputDecoration? decoration;
 
   ListSearchSelectorDropDown(
-      {Key? key, bool? validated, required this.onSelected, required this.items,  this.decoration, this.selected})
-      : super(key: key);
+      {super.key, bool? validated, required this.onSelected, required this.items,  this.decoration, this.selected});
 
   @override
   ListSearchSelectorDropDownState<ValueType> createState() =>
@@ -24,7 +22,6 @@ class ListSearchSelectorDropDown<ValueType> extends StatefulWidget {
 
 class ListSearchSelectorDropDownState<T>
     extends State<ListSearchSelectorDropDown<T>> {
-  bool _isDirty = false;
   final TextEditingController _textController = TextEditingController();
 
   @override
@@ -36,7 +33,6 @@ class ListSearchSelectorDropDownState<T>
 
   void validate() {
     setState(() {
-      _isDirty = true;
     });
   }
 
@@ -113,7 +109,6 @@ class ListSearchSelectorDropDownState<T>
 
     // Actualizamos el estado de la pantalla con los nuevos valores
     setState(() {
-      _isDirty = true;
       print("Selected Banks 1: ${item
           .title}"); // Para depurar y verificar los valores
       widget.onSelected(ItemList<T>(item.title,

@@ -59,7 +59,7 @@ class _ConfirmationTimerDialogState extends State<ConfirmationTimerDialog> {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: Text("Cancelar"),
+          child: const Text("Cancelar"),
         ),
         ElevatedButton(
           onPressed: secondsLeft == 0 ? widget.onConfirm : null,

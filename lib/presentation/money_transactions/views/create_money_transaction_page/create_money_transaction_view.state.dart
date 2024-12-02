@@ -15,7 +15,6 @@ class CreateMoneyTransactionPageState extends State<CreateMoneyTransactionPage> 
   bool finished = false;
   final _formKey = GlobalKey<FormState>();
   MoneyTransaction moneyTransaction = const MoneyTransaction(
-    uuid: 'uuid',
     fromAccountUuid: 'null',
     amount: 0,
     status: MoneyTransactionStatus.pending,

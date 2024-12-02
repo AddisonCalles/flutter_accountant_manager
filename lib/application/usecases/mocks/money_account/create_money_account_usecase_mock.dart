@@ -5,6 +5,7 @@ class CreateMoneyAccountUseCaseMock
     implements CreateMoneyAccountUseCase {
   @override
   Future<MoneyAccount> execute(MoneyAccount item) {
+    print("CreateMoneyAccountUseCaseMock.execute");
     return Future.value(item.copyWith(
       created: DateTime.now(),
     ));

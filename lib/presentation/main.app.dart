@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           routes: mainRoutes,
-          title: 'Punto de venta',
+          title: 'Manejador de finanzas',
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
             useMaterial3: true,

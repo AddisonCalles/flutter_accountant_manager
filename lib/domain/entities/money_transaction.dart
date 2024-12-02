@@ -2,7 +2,7 @@ import 'package:accountant_manager/domain/entities/auditable.dart';
 import 'package:accountant_manager/domain/values/money_transaction_status.dart';
 
 class MoneyTransaction extends Auditable {
-  final String uuid;
+
   final String fromAccountUuid;
   final String? toAccountUuid;
   final String? spentUuid;
@@ -11,7 +11,7 @@ class MoneyTransaction extends Auditable {
   final MoneyTransactionStatus status;
 
   const MoneyTransaction({
-    required this.uuid,
+    super.uuid,
     this.toAccountUuid,
     this.spentUuid,
     this.concept,
@@ -42,7 +42,7 @@ class MoneyTransaction extends Auditable {
     bool? pendingSync,
   }) {
     return MoneyTransaction(
-      uuid: uuid ?? this.uuid,
+      uuid: uuid ?? super.uuid,
       fromAccountUuid: fromAccountUuid ?? this.fromAccountUuid,
       toAccountUuid: toAccountUuid ?? this.toAccountUuid,
       spentUuid: spentUuid ?? this.spentUuid,

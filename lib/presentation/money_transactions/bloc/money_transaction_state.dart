@@ -1,7 +1,6 @@
 import 'package:accountant_manager/domain/entities/money_transaction.dart';
 import 'package:accountant_manager/domain/entities/money_transaction_filter.dart';
 import 'package:accountant_manager/domain/values/generic_request_status.dart';
-import 'package:accountant_manager/presentation/money_transactions/bloc/events/search_money_transaction_event.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 

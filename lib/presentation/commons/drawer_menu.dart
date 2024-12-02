@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DrawerMenu extends StatelessWidget {
+  const DrawerMenu({super.key});
+
 
   void _gotoMenuOption(BuildContext context, String route) {
     Navigator.of(context).pushNamedAndRemoveUntil(route, (Route<dynamic> route) => false);
@@ -17,7 +19,7 @@ class DrawerMenu extends StatelessWidget {
               color: Theme.of(context).primaryColor,
             ),
             child: const Text(
-              'Punto de venta',
+              'Finanzas',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,
@@ -45,33 +47,6 @@ class DrawerMenu extends StatelessWidget {
             title: const Text('Transacciones'),
             onTap: () {
               _gotoMenuOption(context, '/money_transactions');
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.inventory),
-            title: const Text('Productos'),
-            onTap: () {
-              _gotoMenuOption(context, '/edibles');
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.people),
-            title: const Text('Configuraciones'),
-            onTap: () {
-
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.people),
-            title: const Text('Clientes'),
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Clientes - En construcción'),
-                  showCloseIcon: true,
-                  backgroundColor: Colors.redAccent,
-                ),
-              );
             },
           ),
         ],

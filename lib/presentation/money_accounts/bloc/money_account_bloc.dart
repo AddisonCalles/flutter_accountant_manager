@@ -35,6 +35,7 @@ class MoneyAccountBloc extends Bloc<MoneyAccountEvent, MoneyAccountState> {
 
   void _mapCreateMoneyAccountEventToState(CreateMoneyAccountEvent event,
       Emitter<MoneyAccountState> emit) async {
+          print("CreateMoneyAccountEvent");
     try {
       emit(state.copyWith(
           isLoading: true,

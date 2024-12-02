@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 
 class SearchBarField extends StatefulWidget {
   const SearchBarField({
-    Key? key,
+    super.key,
     required this.onSearchChanged,
     String? pleaseHolder,
-  })  : pleaseHolder = pleaseHolder ?? 'Buscar',
-        super(key: key);
+  })  : pleaseHolder = pleaseHolder ?? 'Buscar';
 
   final String pleaseHolder;
   final ValueChanged<String>? onSearchChanged;

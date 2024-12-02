@@ -1,10 +1,7 @@
 
 
 
-import 'package:accountant_manager/presentation/money_accounts/bloc/events/select_to_update_money_account_event.dart';
-import 'package:accountant_manager/presentation/money_accounts/bloc/money_account_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:accountant_manager/domain/entities/money_account.dart';
 
 class MoneyAccountBankCardWidget extends StatelessWidget {
@@ -21,7 +18,6 @@ class MoneyAccountBankCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const gap = SizedBox(height: 8);
     return Container(
       key: ValueKey(account.uuid),
       height: 140 + (account.hasAccountNumber? 17 : 0),

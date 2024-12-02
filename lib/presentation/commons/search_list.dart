@@ -8,13 +8,12 @@ class SearchList<T> extends StatelessWidget {
   final bool finishButton;
 
   const SearchList(
-      {Key? key,
+      {super.key,
       required this.listItems,
       required this.itemBuilder,
       this.finishButton = false,
       this.pleaseHolder,
-      this.onSearchChanged})
-      : super(key: key);
+      this.onSearchChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +22,11 @@ class SearchList<T> extends StatelessWidget {
       if(finishButton) FilledButton.tonal(
           onPressed: () => (Navigator.pop(context)),
           style: ButtonStyle(
-            fixedSize: MaterialStateProperty.all<Size>(const Size(8000, 40)),
+            fixedSize: WidgetStateProperty.all<Size>(const Size(8000, 40)),
             backgroundColor:
-                MaterialStateProperty.all<Color>(Colors.lightBlueAccent),
+                WidgetStateProperty.all<Color>(Colors.lightBlueAccent),
           ),
-          child: Text("Completar")),
+          child: const Text("Completar")),
       Expanded(
         child: SingleChildScrollView(
           child: ListView.builder(

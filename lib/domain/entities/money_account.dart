@@ -8,7 +8,6 @@ final NumberFormat currencyFormatter = NumberFormat.currency(
   symbol: '\$', // Opcional: deja que el símbolo sea definido por el locale
 );
 class MoneyAccount extends Auditable{
-  final String uuid;
   final double balance;
   final MoneyAccountTypes accountType;
   final String? title;
@@ -18,7 +17,7 @@ class MoneyAccount extends Auditable{
 
 
   const MoneyAccount({
-    required this.uuid,
+    super.uuid,
     required this.balance,
     required this.accountType,
     this.title,

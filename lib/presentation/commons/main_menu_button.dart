@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MainMenuButton extends StatelessWidget {
@@ -7,6 +6,7 @@ class MainMenuButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   const MainMenuButton({
+    super.key,
     required this.icon,
     required this.label,
     required this.onPressed,
@@ -17,7 +17,7 @@ class MainMenuButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -26,10 +26,10 @@ class MainMenuButton extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon),
-          SizedBox(width: 12),
+          const SizedBox(width: 12),
           Text(
             label,
-            style: TextStyle(fontSize: 18),
+            style: const TextStyle(fontSize: 18),
           ),
         ],
       ),

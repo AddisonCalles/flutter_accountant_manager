@@ -19,7 +19,6 @@ class CreateMoneyAccountPageState extends State<CreateMoneyAccountPage> {
   final _formKey = GlobalKey<FormState>();
 
   MoneyAccount moneyAccount = const MoneyAccount(
-    uuid: 'uuid',
     balance: 0,
     accountType: MoneyAccountTypes.cash,
   );
@@ -38,6 +37,7 @@ class CreateMoneyAccountPageState extends State<CreateMoneyAccountPage> {
     final selectedToEdit =
         context.select((MoneyAccountBloc bloc) => bloc.state.selectedToEdit);
     ItemList<Banks>? selectedBank;
+    ItemList<MoneyAccountTypes>? selectedAccountType;
     if (selectedToEdit != null && moneyAccount.uuid != selectedToEdit.uuid) {
       /**
        * Sincronizar transacción de vista con el del estado del bloc
@@ -48,7 +48,8 @@ class CreateMoneyAccountPageState extends State<CreateMoneyAccountPage> {
         if(moneyAccount.bank != null){
           selectedBank = ItemList(moneyAccount.bank!.toText(), moneyAccount.bank!);
         }
-        print("moneyAccount bank: ${moneyAccount.bank}");
+        selectedAccountType = ItemList(moneyAccount.accountType.toText(), moneyAccount.accountType);
+              print("moneyAccount bank: ${moneyAccount.bank}");
       });
     }
 
@@ -133,6 +134,24 @@ class CreateMoneyAccountPageState extends State<CreateMoneyAccountPage> {
                                 requiredMessage: 'Este campo es requerido')
                                 .required()
                                 .build(),
+                          ),
+                          const SizedBox(height: 8),
+                          ListSearchSelectorDropDown<MoneyAccountTypes>(
+                            selected: selectedAccountType,
+                            decoration: const InputDecoration(
+                              icon: Icon(Icons.switch_account),
+                              hintText: 'Seleccione un tipo de cuenta',
+                              labelText: 'Tipo de cuenta *',
+                            ),
+                            items: MoneyAccountTypes.values
+                                .map((e) => ItemList(e.toText(), e))
+                                .toList(),
+                            onSelected: (option) {
+                              setState(() {
+                                moneyAccount =
+                                    moneyAccount.copyWith(accountType: option.value);
+                              });
+                            },
                           ),
                           const SizedBox(height: 8),
                           ListSearchSelectorDropDown<Banks>(

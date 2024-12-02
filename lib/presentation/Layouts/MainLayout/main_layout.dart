@@ -29,7 +29,7 @@ class MainLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: MenuAppBar(title: title),
-        drawer:  DrawerMenu(),
+        drawer:  const DrawerMenu(),
         floatingActionButtonLocation: floatingActionButtonLocation,
         bottomNavigationBar: bottomNavigationBar,
         floatingActionButton: floatingActionButton,

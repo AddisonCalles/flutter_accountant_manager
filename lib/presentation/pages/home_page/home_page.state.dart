@@ -31,40 +31,10 @@ class HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(10),
               children: [
                 MainMenuButton(
-                  icon: Icons.people,
-                  label: 'Clientes',
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).clearSnackBars();
-                    // show message: "in construction" with snackbar
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('En construcción'),
-                        showCloseIcon: true,
-                        backgroundColor: Colors.redAccent,
-                      ),
-                    );
-                  },
-                ),
-                MainMenuButton(
-                  icon: Icons.shopping_cart_checkout,
-                  label: 'Accountant Manager',
-                  onPressed: () {
-                    // Lógica para manejar el botón "Empleados"
-                    _gotoMenuOption(context, '/account');
-                  },
-                ),
-                MainMenuButton(
                   icon: Icons.store_mall_directory_sharp,
                   label: 'Transactions',
                   onPressed: () {
                     _gotoMenuOption(context, '/money_transactions');
-                  },
-                ),
-                MainMenuButton(
-                  icon: Icons.add_business_outlined,
-                  label: 'Productos',
-                  onPressed: () {
-                    _gotoMenuOption(context, '/edibles');
                   },
                 ),
                 MainMenuButton(

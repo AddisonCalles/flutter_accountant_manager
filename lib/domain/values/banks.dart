@@ -21,7 +21,7 @@ enum Banks {
   bancoppel(17),
   banjercito(18),
   mercadoPago(19),
-  payPal(20),
+  paypal(20),
   nu(21);
 
   final int value;
@@ -32,7 +32,7 @@ enum Banks {
   String toText(){
     String text = name;
     //TODO: separate camelcase with spaces
-    return text[0].toUpperCase() + text.substring(1);
+    return text[0].toUpperCase() + text.substring(1).replaceAllMapped(RegExp(r'[A-Z]'), (match) => ' ${match.group(0)}');
   }
 
 }
