@@ -13,7 +13,7 @@ class CreateMoneyAccountUseCaseImp implements CreateMoneyAccountUseCase {
   Future<MoneyAccount> execute(MoneyAccount moneyAccount) async {
     String uuid = uuidGenerator.generate();
     moneyAccount = moneyAccount.copyWith(uuid: uuid, created: DateTime.now());
-    await repository.create(moneyAccount);
+    await repository.create(moneyAccount, null);
     return moneyAccount;
   }
 }

@@ -1,4 +1,4 @@
-import 'package:accountant_manager/presentation/money_accounts/bloc/events/remove_selection_money_account_event.dart';
+import 'package:accountant_manager/presentation/money_accounts/bloc/events/remove_selection_to_edit_money_account_event.dart';
 import 'package:accountant_manager/presentation/money_accounts/bloc/events/search_money_account_event.dart';
 import 'package:accountant_manager/presentation/money_accounts/bloc/events/select_to_update_money_account_event.dart';
 import 'package:accountant_manager/presentation/money_accounts/bloc/money_account_state.dart';

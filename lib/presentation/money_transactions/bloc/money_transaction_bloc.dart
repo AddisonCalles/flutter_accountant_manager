@@ -1,5 +1,6 @@
 import 'package:accountant_manager/domain/entities/money_transaction.dart';
 import 'package:accountant_manager/domain/entities/money_transaction_filter.dart';
+import 'package:accountant_manager/domain/usecases/money_account/transfer_amount_money_account_usecase.dart';
 import 'package:accountant_manager/domain/usecases/money_transaction/create_money_transaction_usecase.dart';
 import 'package:accountant_manager/domain/usecases/money_transaction/search_money_transaction_usecase.dart';
 import 'package:accountant_manager/domain/values/generic_request_status.dart';
@@ -13,14 +14,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class MoneyTransactionBloc extends Bloc<MoneyTransactionEvent, MoneyTransactionState> {
   final CreateMoneyTransactionUseCase _createMoneyTransactionUseCase;
   final SearchMoneyTransactionUseCase _searchMoneyTransactionUseCase;
+  final TransferAmountMoneyAccountUsecase _transferAmountMoneyAccountUsecase;
 
 
   MoneyTransactionBloc(
       {required CreateMoneyTransactionUseCase createMoneyTransactionUseCase,
-       required SearchMoneyTransactionUseCase searchAccountUseCase})
+       required SearchMoneyTransactionUseCase searchAccountUseCase,
+       required TransferAmountMoneyAccountUsecase transferAmountMoneyAccountUsecase})
       : /* Initialize attributes*/
         _createMoneyTransactionUseCase = createMoneyTransactionUseCase,
         _searchMoneyTransactionUseCase = searchAccountUseCase,
+        _transferAmountMoneyAccountUsecase = transferAmountMoneyAccountUsecase,
         super(MoneyTransactionState(
             isLoading: false,
             lastMoneyTransaction: null,
@@ -38,8 +42,11 @@ class MoneyTransactionBloc extends Bloc<MoneyTransactionEvent, MoneyTransactionS
           isLoading: true,
           error: '',
           statusProgress: GenericRequestStatus.started));
-      final MoneyTransaction moneyTransaction =
-          await _createMoneyTransactionUseCase.execute(event.account);
+      MoneyTransaction moneyTransaction =
+          await _createMoneyTransactionUseCase.execute(event.transaction);
+      print("money transaction ${moneyTransaction.uuid} Status: ${moneyTransaction.status}");
+      moneyTransaction = await _transferAmountMoneyAccountUsecase.execute(moneyTransaction);
+      print("money transaction ${moneyTransaction.uuid} Status: ${moneyTransaction.status}");
       emit(state.copyWith(
           isLoading: false,
           error: '',

@@ -59,6 +59,11 @@ class MoneyAccount extends Auditable{
     );
   }
 
+  //make a empty MoneyAccount constructor
+  factory MoneyAccount.empty(){
+    return const MoneyAccount(title: "", balance: 0.0);
+  }
+
   bool get hasAccountNumber => accountNumber != null && accountNumber!.isNotEmpty;
 
   String balanceFormatted() => balance.toStringAsFixed(2);

@@ -1,3 +1,4 @@
+import 'package:accountant_manager/domain/usecases/money_account/transfer_amount_money_account_usecase.dart';
 import 'package:accountant_manager/domain/usecases/money_account/create_money_account_usecase.dart';
 import 'package:accountant_manager/domain/usecases/money_account/search_money_account_usecase.dart';
 import 'package:accountant_manager/domain/usecases/money_transaction/create_money_transaction_usecase.dart';
@@ -13,13 +14,15 @@ class MyApp extends StatelessWidget {
   final SearchMoneyTransactionUseCase searchMoneyTransactionUseCase;
   final CreateMoneyAccountUseCase createMoneyAccountUseCase;
   final SearchMoneyAccountUseCase searchMoneyAccountUseCase;
+  final TransferAmountMoneyAccountUsecase transferAmountMoneyAccountUsecase;
 
   const MyApp(
       {super.key,
         required this.createMoneyTransactionUseCase,
         required this.searchMoneyTransactionUseCase,
         required this.createMoneyAccountUseCase,
-        required this.searchMoneyAccountUseCase
+        required this.searchMoneyAccountUseCase,
+        required this.transferAmountMoneyAccountUsecase
       });
 
   @override
@@ -31,7 +34,8 @@ class MyApp extends StatelessWidget {
           BlocProvider<MoneyTransactionBloc>(
             create: (context) => MoneyTransactionBloc(
                 createMoneyTransactionUseCase: createMoneyTransactionUseCase,
-                searchAccountUseCase: searchMoneyTransactionUseCase),
+                searchAccountUseCase: searchMoneyTransactionUseCase,
+                transferAmountMoneyAccountUsecase: transferAmountMoneyAccountUsecase),
           ),
           BlocProvider<MoneyAccountBloc>(
             create: (context) => MoneyAccountBloc(

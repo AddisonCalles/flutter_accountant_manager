@@ -2,6 +2,7 @@ import 'package:accountant_manager/domain/entities/money_account.dart';
 import 'package:accountant_manager/domain/values/account_types.dart';
 import 'package:accountant_manager/domain/values/banks.dart';
 import 'package:accountant_manager/domain/values/generic_request_status.dart';
+import 'package:accountant_manager/presentation/commons/interfaces/item_list.dart';
 import 'package:accountant_manager/presentation/commons/list_search_selector_dropdown.dart';
 import 'package:accountant_manager/presentation/commons/list_search_selector_view.dart';
 import 'package:accountant_manager/presentation/money_accounts/bloc/events/clear_selection_money_account_event.dart';
@@ -46,9 +47,9 @@ class CreateMoneyAccountPageState extends State<CreateMoneyAccountPage> {
       setState(() {
         moneyAccount = selectedToEdit.copyWith();
         if(moneyAccount.bank != null){
-          selectedBank = ItemList(moneyAccount.bank!.toText(), moneyAccount.bank!);
+          selectedBank = ItemList(moneyAccount.bank!.toText(), moneyAccount.bank!.name, moneyAccount.bank!);
         }
-        selectedAccountType = ItemList(moneyAccount.accountType.toText(), moneyAccount.accountType);
+        selectedAccountType = ItemList(moneyAccount.accountType.toText(), moneyAccount.accountType.name,moneyAccount.accountType);
               print("moneyAccount bank: ${moneyAccount.bank}");
       });
     }
@@ -144,12 +145,12 @@ class CreateMoneyAccountPageState extends State<CreateMoneyAccountPage> {
                               labelText: 'Tipo de cuenta *',
                             ),
                             items: MoneyAccountTypes.values
-                                .map((e) => ItemList(e.toText(), e))
+                                .map((e) => ItemList(e.toText(), e.name, e))
                                 .toList(),
                             onSelected: (option) {
                               setState(() {
                                 moneyAccount =
-                                    moneyAccount.copyWith(accountType: option.value);
+                                    moneyAccount.copyWith(accountType: option.data);
                               });
                             },
                           ),
@@ -162,12 +163,12 @@ class CreateMoneyAccountPageState extends State<CreateMoneyAccountPage> {
                               labelText: 'Banco *',
                             ),
                             items: Banks.values
-                                .map((e) => ItemList(e.toText(), e))
+                                .map((e) => ItemList(e.toText(), e.name, e))
                                 .toList(),
                             onSelected: (bank) {
                               setState(() {
                                 moneyAccount =
-                                    moneyAccount.copyWith(bank: bank.value);
+                                    moneyAccount.copyWith(bank: bank.data);
                                 print("moneyAccount bank: ${moneyAccount.bank}");
                               });
                             },

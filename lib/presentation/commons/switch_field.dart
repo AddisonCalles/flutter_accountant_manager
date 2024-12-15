@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 enum SwitchFieldPosition { left, right }
 
 class SwitchField extends StatefulWidget {
-  void Function(bool state)? onSubmit;
+  final void Function(bool state)? onChanged;
   final String label;
   final bool value;
   final SwitchFieldPosition position;
 
-  SwitchField(
+  const SwitchField(
       {super.key,
-      this.onSubmit,
+      this.onChanged,
       required this.label,
       required this.value,
       SwitchFieldPosition? position})
@@ -27,7 +27,7 @@ class SwitchFieldState extends State<SwitchField> {
       activeColor: Colors.pink,
       activeTrackColor: Colors.pinkAccent.withOpacity(0.5),
       onChanged: (bool value) {
-        if (widget.onSubmit != null) widget.onSubmit!(value);
+        if (widget.onChanged != null) widget.onChanged!(value);
       },
     );
   }

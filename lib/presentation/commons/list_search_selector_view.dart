@@ -1,15 +1,10 @@
+import 'package:accountant_manager/presentation/commons/interfaces/item_list.dart';
 import 'package:accountant_manager/presentation/money_accounts/bloc/money_account_bloc.dart';
 import 'package:accountant_manager/presentation/money_accounts/bloc/money_account_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:accountant_manager/presentation/commons/search_list.dart';
-class ItemList<T> {
-  final String title;
-  final T value;
 
-  const ItemList(this.title, this.value);
-
-}
 
 class ListSearchSelectorView<T> extends StatefulWidget {
   final List<ItemList<T>> listItems;
@@ -44,7 +39,7 @@ class ListSearchSelectorViewState extends State<ListSearchSelectorView> {
           });
         },
         itemBuilder: (context, item, index) {
-          final isSelected =  widget.selected == item.value;
+          final isSelected =  widget.selected?.value == item.value;
           final textStyle =
               TextStyle(color: isSelected ? Colors.blue[700] : null);
           return ListTile(

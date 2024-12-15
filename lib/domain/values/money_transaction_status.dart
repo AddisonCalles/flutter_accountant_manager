@@ -1,7 +1,8 @@
 enum MoneyTransactionStatus {
+  unknown(0),
   pending(1),
   completed(2),
-  cancelled(4);
+  cancelled(3);
 
   final int value;
 

@@ -7,6 +7,7 @@
 
 import 'package:accountant_manager/application/usecases/mocks/money_account/create_money_account_usecase_mock.dart';
 import 'package:accountant_manager/application/usecases/mocks/money_account/search_money_account_usecase_mock.dart';
+import 'package:accountant_manager/application/usecases/mocks/money_account/transfer_amount_money_account_usecase_mock.dart';
 import 'package:accountant_manager/application/usecases/mocks/money_transaction/create_money_transaction_usecase_mock.dart';
 import 'package:accountant_manager/application/usecases/mocks/money_transaction/search_money_transaction_usecase_mock.dart';
 import 'package:accountant_manager/presentation/main.app.dart';
@@ -21,7 +22,8 @@ void main() {
       createMoneyAccountUseCase: CreateMoneyAccountUseCaseMock(),
     searchMoneyTransactionUseCase: SearchMoneyTransactionUseCaseMock(),
     createMoneyTransactionUseCase: CreateMoneyTransactionUseCaseMock(),
-    searchMoneyAccountUseCase: SearchMoneyAccountUseCaseMock()));
+    searchMoneyAccountUseCase: SearchMoneyAccountUseCaseMock(),
+    transferAmountMoneyAccountUsecase: TransferAmountMoneyAccountUsecaseMock(),));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

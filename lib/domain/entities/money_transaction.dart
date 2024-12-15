@@ -3,7 +3,7 @@ import 'package:accountant_manager/domain/values/money_transaction_status.dart';
 
 class MoneyTransaction extends Auditable {
 
-  final String fromAccountUuid;
+  final String? fromAccountUuid;
   final String? toAccountUuid;
   final String? spentUuid;
   final String? concept;
@@ -15,7 +15,7 @@ class MoneyTransaction extends Auditable {
     this.toAccountUuid,
     this.spentUuid,
     this.concept,
-    required this.fromAccountUuid,
+    this.fromAccountUuid,
     required this.amount,
     required this.status,
     super.created,

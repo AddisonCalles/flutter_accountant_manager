@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:accountant_manager/presentation/money_accounts/bloc/events/remove_selection_to_edit_money_account_event.dart';
+import 'package:accountant_manager/presentation/money_accounts/bloc/money_account_bloc.dart';
+
 
 class DrawerMenu extends StatelessWidget {
   const DrawerMenu({super.key});
@@ -42,13 +46,14 @@ class DrawerMenu extends StatelessWidget {
               _gotoMenuOption(context, '/money_accounts');
             },
           ),
-          ListTile(
+          /*ListTile(
             leading: const Icon(Icons.store_mall_directory),
             title: const Text('Transacciones'),
             onTap: () {
+              context.read<MoneyAccountBloc>().add(const RemoveSelectionToEditMoneyAccountEvent());
               _gotoMenuOption(context, '/money_transactions');
             },
-          ),
+          ),*/
         ],
       ),
     );

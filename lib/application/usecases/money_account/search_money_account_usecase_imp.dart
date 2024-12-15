@@ -13,6 +13,6 @@ class SearchMoneyAccountUseCaseImp implements SearchMoneyAccountUseCase {
 
   @override
   Future<List<MoneyAccount>> execute(MoneyAccountFilter query) {
-      return repository.search(query);
+      return repository.search(query, null);
   }
 }

@@ -7,19 +7,12 @@ import 'package:accountant_manager/domain/values/account_types.dart';
 import 'package:accountant_manager/domain/values/banks.dart';
 import 'package:sqflite/sqflite.dart';
 
-class MoneyAccountSqliteRepository extends MoneyAccountRepository {
+class MoneyAccountSqliteRepository extends MoneyAccountRepository<Transaction> {
   final DatabasePort<Database> _databasePort;
   final String _tableName = "money_accounts";
-  final Transaction? _transaction;
 
-  MoneyAccountSqliteRepository(this._databasePort): _transaction = null;
+  MoneyAccountSqliteRepository(this._databasePort);
 
-  MoneyAccountSqliteRepository._withTransaction(
-      this._databasePort, this._transaction);
-
-  MoneyAccountSqliteRepository withTransaction(Transaction transaction) {
-    return MoneyAccountSqliteRepository._withTransaction(_databasePort, transaction);
-  }
 
   MoneyAccount _parseEntity(Map<String, Object?> entity) {
     return MoneyAccount(
@@ -40,7 +33,7 @@ class MoneyAccountSqliteRepository extends MoneyAccountRepository {
   }
 
   @override
-  Future<bool> create(MoneyAccount moneyAccount) async {
+  Future<bool> create(MoneyAccount moneyAccount, Transaction? context) async {
     Database db = await _databasePort.instance;
     Map<String, Object?> moneyAccountMap = {
       "uuid": moneyAccount.uuid,
@@ -52,8 +45,8 @@ class MoneyAccountSqliteRepository extends MoneyAccountRepository {
       "description": moneyAccount.description,
       "created": moneyAccount.created!.toIso8601String(),
     };
-    if (_transaction != null) {
-      await _transaction.insert(_tableName, moneyAccountMap);
+    if (context != null) {
+      await context.insert(_tableName, moneyAccountMap);
     } else {
       await db.transaction((txn) async {
         await txn.insert(_tableName, moneyAccountMap);
@@ -64,9 +57,13 @@ class MoneyAccountSqliteRepository extends MoneyAccountRepository {
 
 
   @override
-  Future<MoneyAccount> getByUUID(String uuid) async {
-    Database db = await _databasePort.instance;
-
+  Future<MoneyAccount> getByUUID(String uuid, Transaction? context) async {
+    dynamic db;
+    if(context != null){
+      db = context;
+    } else {
+      db = await _databasePort.instance;
+    }
     List<Map<String, Object?>> results =
         await db.query(_tableName, where: "uuid = ?", whereArgs: [uuid]);
 
@@ -77,7 +74,7 @@ class MoneyAccountSqliteRepository extends MoneyAccountRepository {
   }
 
   @override
-  Future<List<MoneyAccount>> search(MoneyAccountFilter filter) async {
+  Future<List<MoneyAccount>> search(MoneyAccountFilter filter, Transaction? context) async {
     Database db = await _databasePort.instance;
 
     List<String> where = [];
@@ -94,6 +91,11 @@ class MoneyAccountSqliteRepository extends MoneyAccountRepository {
         where.add("deleted IS NULL");
       }
     }
+    if (filter.accountUUID != null) {
+      where.add("uuid = ?");
+      whereArgs.add(filter.accountUUID);
+    }
+
     if (filter.status != null) {
       where.add("status = ?");
       whereArgs.add(filter.status!.value);
@@ -135,10 +137,12 @@ class MoneyAccountSqliteRepository extends MoneyAccountRepository {
   }
 
   @override
-  Future<bool> update(MoneyAccount moneyAccount) async {
-    if (_transaction != null) {
-      await _update(moneyAccount, _transaction);
+  Future<bool> update(MoneyAccount moneyAccount, Transaction? context) async {
+    if (context != null) {
+      print("Updating money account with context");
+      await _update(moneyAccount, context);
     } else {
+      print("Updating money account without context");
       Database db = await _databasePort.instance;
       await db.transaction((txn) async {
         await _update(moneyAccount, txn);

@@ -4,6 +4,7 @@ import 'package:accountant_manager/domain/entities/money_account_filter.dart';
 import 'package:accountant_manager/domain/entities/money_transaction.dart';
 import 'package:accountant_manager/domain/entities/money_transaction_filter.dart';
 import 'package:accountant_manager/domain/exceptions/not_found_entity_of_data.dart';
+import 'package:accountant_manager/domain/ports/data_transaction_port.dart';
 import 'package:accountant_manager/domain/repositories/money_account_repository.dart';
 import 'package:accountant_manager/domain/repositories/money_transaction_repository.dart';
 import 'package:accountant_manager/domain/values/account_types.dart';
@@ -11,19 +12,11 @@ import 'package:accountant_manager/domain/values/banks.dart';
 import 'package:accountant_manager/domain/values/money_transaction_status.dart';
 import 'package:sqflite/sqflite.dart';
 
-class MoneyTransactionSqliteRepository extends MoneyTransactionRepository {
+class MoneyTransactionSqliteRepository extends MoneyTransactionRepository<Transaction> {
   final DatabasePort<Database> _databasePort;
   final String _tableName = "money_transactions";
-  final Transaction? _transaction;
 
-  MoneyTransactionSqliteRepository(this._databasePort): _transaction = null;
-
-  MoneyTransactionSqliteRepository._withTransaction(
-      this._databasePort, this._transaction);
-
-  MoneyTransactionSqliteRepository withTransaction(Transaction transaction) {
-    return MoneyTransactionSqliteRepository._withTransaction(_databasePort, transaction);
-  }
+  MoneyTransactionSqliteRepository(this._databasePort);
 
   MoneyTransaction _parseEntity(Map<String, Object?> entity) {
     return MoneyTransaction(
@@ -37,14 +30,14 @@ class MoneyTransactionSqliteRepository extends MoneyTransactionRepository {
             : DateTime.parse(entity["updated"] as String),
         status: MoneyTransactionStatus.values[entity["status"] as int],
         amount: entity["amount"] as double,
-        spentUuid: entity["spentUuid"] as String,
-        fromAccountUuid: entity["fromAccountUuid"] as String,
-        toAccountUuid: entity["toAccountUuid"] as String,
+        spentUuid: entity["spentUuid"] as String?,
+        fromAccountUuid: entity["fromAccountUuid"] as String?,
+        toAccountUuid: entity["toAccountUuid"] as String?,
         concept: entity["concept"] as String);
   }
 
   @override
-  Future<bool> create(MoneyTransaction item) async {
+  Future<bool> create(MoneyTransaction item, Transaction? context ) async {
     Database db = await _databasePort.instance;
     Map<String, Object?> entityMap = {
       "uuid": item.uuid,
@@ -56,12 +49,14 @@ class MoneyTransactionSqliteRepository extends MoneyTransactionRepository {
       "amount": item.amount,
       "created": item.created!.toIso8601String(),
     };
-    if (_transaction != null) {
-      await _transaction.insert(_tableName, entityMap);
+    if (context != null) {
+      await context.insert(_tableName, entityMap);
     } else {
+      print("create money transaction sqlite");
       await db.transaction((txn) async {
         await txn.insert(_tableName, entityMap);
       });
+      print("create money transaction sqlite done");
     }
     return true;
   }
@@ -80,9 +75,13 @@ class MoneyTransactionSqliteRepository extends MoneyTransactionRepository {
     return _parseEntity(results.first);
   }
 
+
+
   @override
-  Future<List<MoneyTransaction>> search(MoneyTransactionFilter filter) async {
-    Database db = await _databasePort.instance;
+  Future<List<MoneyTransaction>> search(MoneyTransactionFilter filter, Transaction? context) async {
+    dynamic db = context;
+    db ??= await _databasePort.instance;
+
 
     List<String> where = [];
     List whereArgs = [];
@@ -112,8 +111,8 @@ class MoneyTransactionSqliteRepository extends MoneyTransactionRepository {
     // Modify the query to include pagination with LIMIT and OFFSET
     List<Map<String, Object?>> results = await db.query(
       _tableName,
-      where: where.join(" AND "),
-      whereArgs: whereArgs,
+      where: where.isEmpty ? null : where.join(" AND "),
+      whereArgs: whereArgs.isEmpty ? null : whereArgs,
       limit: filter.pageSize,
       offset: filter.offset,
     );
@@ -137,13 +136,15 @@ class MoneyTransactionSqliteRepository extends MoneyTransactionRepository {
   }
 
   @override
-  Future<bool> update(MoneyTransaction moneyTransaction) async {
-    if (_transaction != null) {
-      await _update(moneyTransaction, _transaction);
+  Future<bool> update(MoneyTransaction moneyTransaction, Transaction? context) async {
+    if (context != null) {
+      print("Updating money transaction with context");
+      await _update(moneyTransaction, context);
     } else {
+      print("Updating money transaction without context");
       Database db = await _databasePort.instance;
       await db.transaction((txn) async {
-        await _update(moneyTransaction, txn);
+        return await _update(moneyTransaction, txn);
       });
     }
     return true;

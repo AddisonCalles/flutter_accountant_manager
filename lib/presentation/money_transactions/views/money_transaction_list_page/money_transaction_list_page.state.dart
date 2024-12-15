@@ -1,11 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:accountant_manager/domain/entities/money_account.dart';
 import 'package:accountant_manager/presentation/money_accounts/bloc/money_account_bloc.dart';
 import 'package:accountant_manager/presentation/money_accounts/bloc/money_account_state.dart';
 import 'package:accountant_manager/presentation/money_accounts/widgets/money_account_bank_card.dart';
-import 'package:accountant_manager/presentation/money_accounts/widgets/money_account_card_widget.dart';
-import 'package:flutter/material.dart';
-
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:accountant_manager/presentation/Layouts/MainLayout/main_layout.dart';
 import 'package:accountant_manager/presentation/money_transactions/bloc/events/search_money_transaction_event.dart';
 import 'package:accountant_manager/presentation/money_transactions/bloc/money_transaction_bloc.dart';
@@ -13,10 +11,10 @@ import 'package:accountant_manager/presentation/money_transactions/bloc/money_tr
 import 'package:accountant_manager/presentation/money_transactions/views/money_transaction_list_page/money_transaction_list_page.dart';
 
 class MoneyTransactionListPageState extends State<MoneyTransactionListPage> {
-
   @override
   void initState() {
     print("LOAD INGREDIENTS");
+
     context
         .read<MoneyTransactionBloc>()
         .add(const SearchMoneyTransactionEvent.clean());
@@ -30,19 +28,20 @@ class MoneyTransactionListPageState extends State<MoneyTransactionListPage> {
 
     return BlocBuilder<MoneyAccountBloc, MoneyAccountState>(
         builder: (context, moneyAccountState) {
-         final MoneyAccount? selectedAccount = moneyAccountState.selectedToEdit;
-         final int offsetAccount = selectedAccount == null ? 0 : 1;
+      final MoneyAccount? selectedAccount = moneyAccountState.selectedToEdit;
+      final int offsetAccount = selectedAccount == null ? 0 : 1;
       return MainLayout(
         title: 'Transacciones',
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             SearchMoneyTransactionEvent event =
-               const SearchMoneyTransactionEvent.clean();
+                const SearchMoneyTransactionEvent.clean();
 
             if (offsetAccount == 1) {
               event =
                   SearchMoneyTransactionEvent.byAccount(selectedAccount!.uuid!);
-            }            Navigator.pushNamed(context, '/money_transaction/add').then(
+            }
+            Navigator.pushNamed(context, '/money_transaction/add').then(
                 (value) => context.read<MoneyTransactionBloc>().add(event));
           },
           backgroundColor: Colors.pink,
@@ -71,6 +70,8 @@ class MoneyTransactionListPageState extends State<MoneyTransactionListPage> {
 
                 // Lista de transacciones
                 final transaction = transactions[index - offsetAccount];
+
+                final deposit = transaction.toAccountUuid == selectedAccount?.uuid;
                 return Card(
                   key: ValueKey(transaction.uuid),
                   child: ListTile(
@@ -78,17 +79,17 @@ class MoneyTransactionListPageState extends State<MoneyTransactionListPage> {
                       margin: const EdgeInsets.only(right: 0),
                       width: 30,
                       height: 30,
-                      child: const Column(
+                      child:  Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(Icons.remove_circle, color: Colors.red, size: 20)
+                          Icon(deposit ? Icons.add_circle : Icons.remove_circle, color: deposit?Colors.green : Colors.red, size: 20)
                         ],
                       ),
                     ),
-                    title: Text("+ \$ ${transaction.amount} \t"),
+                    title: Text("${deposit ? "+": "-"} \$ ${transaction.amount} \t"),
                     subtitle: Text(
-                        "${transaction.concept} \n${transaction.status.toText()}"),
+                        "${transaction.concept} \n${transaction.status.toText()}\n ${transaction.updated?.toLocal().toString().split(".")[0]}"),
                     trailing: const Icon(Icons.more_vert),
                   ),
                 );

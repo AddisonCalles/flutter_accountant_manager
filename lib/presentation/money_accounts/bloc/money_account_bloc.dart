@@ -6,6 +6,8 @@ import 'package:accountant_manager/domain/values/generic_request_status.dart';
 import 'package:accountant_manager/presentation/money_accounts/bloc/events/clear_selection_money_account_event.dart';
 import 'package:accountant_manager/presentation/money_accounts/bloc/events/create_money_account_event.dart';
 import 'package:accountant_manager/presentation/money_accounts/bloc/events/money_account_event.dart';
+import 'package:accountant_manager/presentation/money_accounts/bloc/events/reload_selection_money_account_to_edit_event.dart';
+import 'package:accountant_manager/presentation/money_accounts/bloc/events/remove_selection_to_edit_money_account_event.dart';
 import 'package:accountant_manager/presentation/money_accounts/bloc/events/search_money_account_event.dart';
 import 'package:accountant_manager/presentation/money_accounts/bloc/events/select_to_update_money_account_event.dart';
 import 'package:accountant_manager/presentation/money_accounts/bloc/money_account_state.dart';
@@ -31,6 +33,10 @@ class MoneyAccountBloc extends Bloc<MoneyAccountEvent, MoneyAccountState> {
     on<ClearSelectionMoneyAccountEvent>(
         _mapClearSelectionMoneyAccountEventToState);
     on<SelectToUpdateMoneyAccountEvent>(_mapSelectToUpdateMoneyAccountEventToState);
+    on<RemoveSelectionToEditMoneyAccountEvent>(
+        _mapRemoveSelectionToEditMoneyAccountEventToState);
+    on<ReloadSelectionMoneyAccountToEditEvent>(
+        _reloadSelectionMoneyAccountToEditEvent);
   }
 
   void _mapCreateMoneyAccountEventToState(CreateMoneyAccountEvent event,
@@ -74,8 +80,7 @@ class MoneyAccountBloc extends Bloc<MoneyAccountEvent, MoneyAccountState> {
     }
     try {
       emit(state
-          .copyWith(isLoading: true, error: '', search: search)
-          .copyWithoutSelectedToEdit());
+          .copyWith(isLoading: true, error: '', search: search));
       final List<MoneyAccount> transactions =
           await _searchMoneyAccountUseCase.execute(search);
       emit(state.copyWith(
@@ -98,6 +103,24 @@ class MoneyAccountBloc extends Bloc<MoneyAccountEvent, MoneyAccountState> {
   void _mapSelectToUpdateMoneyAccountEventToState(SelectToUpdateMoneyAccountEvent event,
       Emitter<MoneyAccountState> emit) async {
     emit(state.copyWith(selectedToEdit: event.account));
+  }
+
+  void _mapRemoveSelectionToEditMoneyAccountEventToState(
+      RemoveSelectionToEditMoneyAccountEvent event,
+      Emitter<MoneyAccountState> emit) async {
+    emit(state.copyWithoutSelectedToEdit());
+  }
+
+  void _reloadSelectionMoneyAccountToEditEvent(
+      ReloadSelectionMoneyAccountToEditEvent event,
+      Emitter<MoneyAccountState> emit) async {
+    if (state.selectedToEdit == null) return;
+
+   List<MoneyAccount> result = await _searchMoneyAccountUseCase.execute(MoneyAccountFilter.clean().copyWith(accountUUID: state.selectedToEdit?.uuid));
+
+    if(result.isNotEmpty){
+      emit(state.copyWith(selectedToEdit: result.first));
+    }
   }
   @override
   Future<void> close() {

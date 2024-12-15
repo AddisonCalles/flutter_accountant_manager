@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:accountant_manager/presentation/commons/interfaces/item_list.dart';
 import 'package:accountant_manager/presentation/money_accounts/bloc/money_account_bloc.dart';
 import 'package:accountant_manager/presentation/money_accounts/bloc/money_account_state.dart';
 import 'package:accountant_manager/presentation/commons/list_search_selector_view.dart';
@@ -109,15 +110,11 @@ class ListSearchSelectorDropDownState<T>
 
     // Actualizamos el estado de la pantalla con los nuevos valores
     setState(() {
-      print("Selected Banks 1: ${item
-          .title}"); // Para depurar y verificar los valores
-      widget.onSelected(ItemList<T>(item.title,
-          item.value as T)); // Pasamos el primer valor seleccionado al padre
+      widget.onSelected(ItemList<T>(item.title, item.value,
+          item.data)); // Pasamos el primer valor seleccionado al padre
 
       _textController.text =
           item.title; // Actualizamos el valor del campo de texto
-      print("Selected Banks: ${item
-          .title}"); // Para depurar y verificar los valores
     });
   }
 }
